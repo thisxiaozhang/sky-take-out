@@ -40,40 +40,42 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public PageResult PageQuery(CategoryPageQueryDTO categoryPageQueryDTO) {
-        PageHelper.startPage(categoryPageQueryDTO.getPage(),categoryPageQueryDTO.getPageSize());
-        Page<Category> page=categoryMapper.PageQuery(categoryPageQueryDTO);
-        return new PageResult(page.getTotal(),page.getResult());
+        PageHelper.startPage(categoryPageQueryDTO.getPage(), categoryPageQueryDTO.getPageSize());
+        Page<Category> page = categoryMapper.PageQuery(categoryPageQueryDTO);
+        return new PageResult(page.getTotal(), page.getResult());
     }
 
     @Override
     public void save(CategoryDTO categoryDTO) {
-        Category category=new Category();
+        Category category = new Category();
         //属性拷贝
-        BeanUtils.copyProperties(categoryDTO,category);
+        BeanUtils.copyProperties(categoryDTO, category);
         //分类状态默认为禁用状态0
         category.setStatus(StatusConstant.DISABLE);
-
-        //设置创建时间、修改时间、创建人、修改人
-        category.setCreateTime(LocalDateTime.now());
-        category.setUpdateTime(LocalDateTime.now());
-        category.setCreateUser(BaseContext.getCurrentId());
-        category.setUpdateUser(BaseContext.getCurrentId());
+        /**
+         //设置创建时间、修改时间、创建人、修改人
+         category.setCreateTime(LocalDateTime.now());
+         category.setUpdateTime(LocalDateTime.now());
+         category.setCreateUser(BaseContext.getCurrentId());
+         category.setUpdateUser(BaseContext.getCurrentId());
+         */
 
         categoryMapper.insert(category);
     }
 
     /**
      * 删除分类
+     *
      * @param id
      */
     @Override
     public void deleteById(Long id) {
-        Integer count=dishMapper.countByCategoryId(id);
-        if(count >0 ){
+        Integer count = dishMapper.countByCategoryId(id);
+        if (count > 0) {
             throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_DISH);
         }
         count = setmealMapper.countByCategoryId(id);
-        if(count >0 ){
+        if (count > 0) {
             throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_SETMEAL);
         }
         categoryMapper.deleteById(id);
@@ -81,38 +83,42 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * 修改分类
+     *
      * @param categoryDTO
      */
 
     @Override
     public void update(CategoryDTO categoryDTO) {
         Category category = new Category();
-        BeanUtils.copyProperties(categoryDTO,category);
+        BeanUtils.copyProperties(categoryDTO, category);
         //设置修改时间、修改人
-        category.setUpdateTime(LocalDateTime.now());
-        category.setUpdateUser(BaseContext.getCurrentId());
+//        category.setUpdateTime(LocalDateTime.now());
+//        category.setUpdateUser(BaseContext.getCurrentId());
 
         categoryMapper.update(category);
     }
+
     /**
      * 启用禁用分类
+     *
      * @param status
      * @param id
      */
 
     @Override
     public void startOrStop(Integer status, Long id) {
-        Category category= Category.builder().
+        Category category = Category.builder().
                 id(id).
-                status(status).
-                updateTime(LocalDateTime.now()).
-                updateUser(BaseContext.getCurrentId())
+                status(status)
+//                updateTime(LocalDateTime.now()).
+//                updateUser(BaseContext.getCurrentId())
                 .build();
         categoryMapper.update(category);
     }
 
     /**
      * 根据类型查询分类
+     *
      * @param type
      * @return
      */
