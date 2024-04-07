@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author xiaozhang
@@ -110,4 +111,14 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.update(category);
     }
 
+    /**
+     * 根据类型查询分类
+     * @param type
+     * @return
+     */
+
+    @Override
+    public List<Category> selectByType(Integer type) {
+        return categoryMapper.selectByType(type);
+    }
 }

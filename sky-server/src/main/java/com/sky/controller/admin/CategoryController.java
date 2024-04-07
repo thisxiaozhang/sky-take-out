@@ -2,6 +2,7 @@ package com.sky.controller.admin;
 
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
+import com.sky.entity.Category;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.CategoryService;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author xiaozhang
@@ -75,11 +77,29 @@ public class CategoryController {
         categoryService.update(categoryDTO);
         return Result.success();
     }
-    @PostMapping("/status/{status}")
 
+    /**
+     * 菜品启停
+     * @param status
+     * @param id
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation(value = "菜品启停")
     public Result<String> statusOrStop(@PathVariable Integer status,Long id){
         log.info("修改分类状态:{},{}",status,id);
         categoryService.startOrStop(status,id);
+        return Result.success();
+    }
+    /**
+     * 根据类型查询分类
+     * @param type
+     * @return
+     */
+    @GetMapping("/list")
+    @ApiOperation(value = "根据类型查询分类")
+    public Result<List<Category>> selectByType(Integer type){
+        List<Category> list=categoryService.selectByType(type);
         return Result.success();
     }
 }
