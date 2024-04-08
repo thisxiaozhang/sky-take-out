@@ -100,6 +100,6 @@ public class CategoryController {
     @ApiOperation(value = "根据类型查询分类")
     public Result<List<Category>> selectByType(Integer type){
         List<Category> list=categoryService.selectByType(type);
-        return Result.success();
+        return Result.success(list);
     }
 }
