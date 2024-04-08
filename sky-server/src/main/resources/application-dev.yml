@@ -8,7 +8,7 @@ sky:
     password: 123456
   alioss:
     endpoint: oss-cn-beijing.aliyuncs.com
-    access-key-id: LTAI5tKaN3FVKmUpqfKPNJtD
-    access-key-secret: WzGdRF5EzcQxYyJ8liySMeUmLhl4xE
+    access-key-id: “aly”
+    access-key-secret: “aly”
     bucket-name: xiaozhang-study
 
